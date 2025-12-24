@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="appShell">
+      <!-- LEFT SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebarTop">
+          <div class="brand">
+            <div class="brandIcon">Q</div>
+            <div class="brandText">
+              <div class="brandName">Quiz App</div>
+              <div class="brandSub">Practice Tests</div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <button class="navItem navItemActive">Practice Tests</button>
+          <button class="navItem">Flashcards</button>
+          <button class="navItem">Study Guides</button>
+          <button class="navItem">Your Library</button>
+        </nav>
+
+        <div class="sidebarBottom">
+          <button id="openSettingsFromSidebar" class="navItem subtle">Settings</button>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="main">
+        <!-- TOP BAR -->
+        <header class="topbar">
+          <div class="searchWrap">
+            <span class="searchIcon">⌕</span>
+            <input id="searchInput" class="searchInput" placeholder="Find it faster with a search" />
+          </div>
+
+          <div class="topActions">
+            <button class="iconBtn" title="Share">⤴</button>
+            <button class="pillBtn" id="upgradeBtn">Upgrade: Free 7-day trial</button>
+            <div class="avatar">A</div>
+          </div>
+        </header>
+
+        <!-- CONTENT -->
+        <section class="content">
+          <!-- START / QUIZ TITLE -->
+          <div class="pageTitle">
+            <div>
+              <h1 id="titleText">Software Engineering Concepts Practice Test</h1>
+              <div class="metaRow">
+                <span class="metaDot">●</span>
+                <span id="createdBy">Created by You</span>
+                <span class="metaDot">●</span>
+                <span id="createdAt">Today</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- START SCREEN -->
+          <div id="startScreen" class="card">
+            <div class="cardHeader">
+              <h2>Build your test</h2>
+              <p class="muted">Choose a category, number of questions, and timer.</p>
+            </div>
+
+            <div class="grid2">
+              <div class="field">
+                <label>Category</label>
+                <select id="categorySelect">
+                  <option value="se">Software Engineering</option>
+                  <option value="js">JavaScript Basics</option>
+                  <option value="html">HTML Basics</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Questions</label>
+                <input id="numQuestions" type="number" min="3" max="20" value="10" />
+                <div class="hint">Max 20 (we’ll sample from the bank)</div>
+              </div>
+
+              <div class="field">
+                <label>Timer (minutes)</label>
+                <input id="timerMinutes" type="number" min="0" max="180" value="30" />
+                <div class="hint">Set 0 for no timer</div>
+              </div>
+
+              <div class="field">
+                <label>Type</label>
+                <div class="toggleRow">
+                  <div class="toggleLabel">Multiple choice</div>
+                  <label class="switch">
+                    <input id="mcqToggle" type="checkbox" checked />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div class="toggleRow">
+                  <div class="toggleLabel muted">Written (locked)</div>
+                  <label class="switch disabled">
+                    <input type="checkbox" disabled />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="cardActions">
+              <button id="generateBtn" class="primaryBtn">Generate test</button>
+              <button id="viewBankBtn" class="ghostBtn">View question bank</button>
+            </div>
+          </div>
+
+          <!-- QUIZ SCREEN -->
+          <div id="quizScreen" class="card hidden">
+            <div class="quizTop">
+              <div class="quizStat" id="qCounter">0/0</div>
+              <div class="quizStat" id="timerBox">30:00</div>
+            </div>
+
+            <div class="bar">
+              <div id="barFill" class="barFill"></div>
+            </div>
+
+            <h2 id="questionText" class="question"></h2>
+            <div id="choices" class="choices"></div>
+
+            <div class="quizBottom">
+              <div class="scorePill" id="scorePill">Score: 0</div>
+              <button id="nextBtn" class="primaryBtn hidden">Next</button>
+            </div>
+          </div>
+
+          <!-- RESULT SCREEN -->
+          <div id="resultScreen" class="card hidden">
+            <div class="resultHeader">
+              <div class="badge">Finished</div>
+              <h2>Your score</h2>
+              <div id="scoreBig" class="scoreBig">0/0</div>
+              <p id="scoreText" class="muted"></p>
+            </div>
+
+            <div class="cardActions">
+              <button id="restartBtn" class="primaryBtn">Restart</button>
+              <button id="reviewBtn" class="ghostBtn">Review answers</button>
+            </div>
+
+            <div id="reviewList" class="reviewList hidden"></div>
+          </div>
+        </section>
+      </main>
+
+      <!-- RIGHT SETTINGS PANEL (like Quizlet side card) -->
+      <aside class="rightPanel" id="rightPanel">
+        <div class="panelCard">
+          <div class="panelHeader">
+            <div class="panelTitle">Your first test is free</div>
+            <button id="closePanelBtn" class="iconBtn">✕</button>
+          </div>
+
+          <div class="panelField">
+            <label>Questions (max 68)</label>
+            <input id="panelQuestions" type="number" min="3" max="20" value="10" />
+          </div>
+
+          <div class="panelField">
+            <label>Timer (minutes)</label>
+            <input id="panelTimer" type="number" min="0" max="180" value="30" />
+          </div>
+
+          <div class="panelField">
+            <div class="toggleRow">
+              <div class="toggleLabel">Multiple choice</div>
+              <label class="switch">
+                <input id="panelMcq" type="checkbox" checked />
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="toggleRow">
+              <div class="toggleLabel muted">Written</div>
+              <label class="switch disabled">
+                <input type="checkbox" disabled />
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <button id="startBtn" class="primaryBtn full">Take this test</button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- MODAL (like “Your test has been generated”) -->
+    <div id="modalBackdrop" class="modalBackdrop hidden">
+      <div class="modal">
+        <div class="modalTitle">Your test has been generated</div>
+        <div class="modalSub">Customize settings, then start when ready.</div>
+
+        <div class="modalFields">
+          <div class="panelField">
+            <label>Questions</label>
+            <input id="modalQuestions" type="number" min="3" max="20" value="10" />
+          </div>
+
+          <div class="panelField">
+            <label>Timer (minutes)</label>
+            <input id="modalTimer" type="number" min="0" max="180" value="30" />
+          </div>
+        </div>
+
+        <div class="modalActions">
+          <button id="modalCloseBtn" class="ghostBtn">Maybe later</button>
+          <button id="modalStartBtn" class="primaryBtn">Take this test</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
